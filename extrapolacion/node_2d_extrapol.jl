@@ -4,11 +4,11 @@ using Statistics, LinearAlgebra, Plots, LaTeXStrings
 u0 = [2.0; 0.0]                                         # valores iniciales
 datasize = 60                                           # tamaño de la muestra de datos
 tspan = (0,1)                                           # intervalo de tiempo de entrenamiento
-tspan_pred = (tspan[1],tspan[2]+2)                      # intervalo extendido               
+tspan_pred = (tspan[1],tspan[2]+0.5)                      # intervalo extendido               
 t = range(tspan[1],tspan[2],step=0.02)                   # rango de tiempo de entrenamiento
 t_pred = range(tspan_pred[1],tspan_pred[2],step=0.02)    # rango de tiempo extendido
 input_dim, hidden_dim = 2, 64                           # dimensiones de la nn
-augment_dim = 0                                         # dimensiones aumentadas para ANODE
+augment_dim = 10                                         # dimensiones aumentadas para ANODE
 n = 300                                                 # iteraciones de entrenamiento
 s = (1000,800)                                          # tamaño de las figuras
 

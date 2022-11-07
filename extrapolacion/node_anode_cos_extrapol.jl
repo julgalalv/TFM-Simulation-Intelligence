@@ -5,11 +5,11 @@ using Statistics, LinearAlgebra, Plots, LaTeXStrings
 u0 = [1.0]                                              # valores iniciales u(0)
 du0 = [0.0]                                             # valores iniciales du/dt(0)
 tspan = (0.0,12)                                        # intervalo de tiempo de entrenamiento
-tspan_pred = (tspan[1],tspan[2]+12)                     # intervalo extendido               
+tspan_pred = (tspan[1],tspan[2]+20)                     # intervalo extendido               
 t = range(tspan[1],tspan[2],step=0.2)                   # rango de tiempo de entrenamiento
 t_pred = range(tspan_pred[1],tspan_pred[2],step=0.2)    # rango de tiempo extendido
 input_dim, hidden_dim = 1, 64                           # dimensiones de la nn
-augment_dim = 1                                         # dimensiones aumentadas para ANODE
+augment_dim = 0                                         # dimensiones aumentadas para ANODE
 n = 400                                                 # iteraciones de entrenamiento
 s = (1000,500)                                          # tamaño de las figuras
 
@@ -60,7 +60,7 @@ cb = function()
     if iter % 1 == 0  
         println("Iteration $iter || Loss = $(l)")
         cur = predict()
-        pl = scatter(t,ode_data, xlims=tspan_pred, ylims=(-1.20,1.20),label="data",legend=:topright, annotations = (6,-0.9,Plots.text("iter = $iter")))
+        pl = scatter(t,ode_data, xlims=tspan_pred, ylims=(-1.20,1.20),label="data",legend=:topright, annotations = (6,-1.1,Plots.text("iter = $iter")))
         xlabel!(latexstring("t"))
         ylabel!(latexstring("u"))
 
@@ -73,7 +73,7 @@ cb = function()
         plot!(pl,t_pred,cur[1,:],linewidth=2,label="prediction",title = latexstring("u") * " vs " *latexstring("t") * tit)
 
         plt_loss = plot(loss_list,linewidth=2, legend = false,xlims=(0,n), ylims=(0,50),
-                      size=s, annotations = (150,30,Plots.text("loss = $(l)")),
+                      size=s, annotations = (n/2,30,Plots.text("loss = $(l)")),
                       title = "loss frente a iteraciones")
         xlabel!(latexstring("n"))
         ylabel!(latexstring("loss"))
