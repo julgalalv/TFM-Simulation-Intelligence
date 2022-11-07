@@ -41,45 +41,34 @@ $$
 \end{split}
 $$
 
-<figure>
-<center>
-<img src="./images/node_2d_extrapol.gif"  width="600"/>
-</center>
-<center>
-<figcaption>Entrenamiento y extrapolación de 0.5 con una Neural ODE.</figcaption>
-</center>
-</figure>
+<p align = "center">
+    <img src="./images/node_2d_extrapol.gif"  width="600"/>
+</p>
+<p align = "center"><em>Fig 1. Entrenamiento y extrapolación de 0.5 con una Neural ODE.</em></p>
 
+<br/><br/>
 
-<figure>
-<center>
-<img src="./images/anode1_2d_extrapol.gif"  width="600"/>
-</center>
-<center>
-<figcaption>Entrenamiento y extrapolación de 0.5 con una Augmented Neural ODE con 1 dimensión de aumento.</figcaption>
-</center>
-</figure>
+<p align = "center">
+    <img src="./images/anode1_2d_extrapol.gif"  width="600"/>
+</p>
+<p align = "center"><em>Fig 2. Entrenamiento y extrapolación de 0.5 con una Augmented Neural ODE con 1 dimensión de aumento.</em></p>
+
 
 
 ## Ajuste de la función coseno
 
-<figure>
-<center>
-<img src="./images/node_cos_extrapol.gif"  width="600"/>
-</center>
-<center>
-<figcaption>Una NODE no es capaz de aprender características de segundo orden.</figcaption>
-</center>
-</figure>
+<p align = "center">
+    <img src="./images/node_cos_extrapol.gif"  width="600"/>
+</p>
+<p align = "center"><em>Fig 3. Una NODE no es capaz de aprender características de segundo orden.</em></p>
 
-<figure>
-<center>
-<img src="./images/anode_cos_extrapol.gif"  width="600"/>
-</center>
-<center>
-<figcaption>ANODE puede ajustar dinámicas de segundo orden tratándola como un sistema de primer orden en dimensiones superiores (aumentadas).</figcaption>
-</center>
-</figure>
+<br/><br/>
+
+<p align = "center">
+    <img src="./images/anode_cos_extrapol.gif"  width="600"/>
+</p>
+<p align = "center"><em>Fig 4. ANODE puede ajustar dinámicas de segundo orden tratándola como un sistema de primer orden en dimensiones superiores (aumentadas).</em></p>
+
 
 # Referencias
 
