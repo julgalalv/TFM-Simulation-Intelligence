@@ -22,8 +22,9 @@ $$
         \begin{bmatrix}
             u_1^3\\
             u_2^3
-        \end{bmatrix}
-        \\ u(0)=
+        \end{bmatrix}\\
+        \\
+         u(0)=
         \begin{bmatrix}
             u_1(0)\\
             u_2(0)
@@ -33,6 +34,7 @@ $$
              0
         \end{bmatrix}
     \end{cases} \\
+    \\
     & \text{donde } t \in [0,1] \text{ y } A =         
         \begin{bmatrix}
             -0.1 & -2\\
@@ -40,6 +42,8 @@ $$
         \end{bmatrix}.
 \end{split}
 $$
+
+<br/><br/>
 
 <p align = "center">
     <img src="./images/node_2d_extrapol.gif"  width="600"/>
