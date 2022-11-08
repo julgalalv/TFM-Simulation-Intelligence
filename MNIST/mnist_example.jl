@@ -52,19 +52,18 @@ down = Flux.Chain(Flux.Conv((3, 3), 1=>dim, relu, stride = 1), Flux.GroupNorm(di
 dudt = Flux.Chain(Flux.Conv((3, 3), augment_dim=>augment_dim, tanh, stride=1, pad=1),
              Flux.Conv((3, 3), augment_dim=>augment_dim, tanh, stride=1, pad=1)) |>gpu
 
-# (A)NODE
-node_model = augmented < 1 ? nn_ode : AugmentedNDELayer(nn_ode,augmented)             
-
-# fully connected que devuelve la probabilidad de clase              
-fc = Flux.Chain(Flux.GroupNorm(augment_dim, augment_dim), x -> relu.(x), Flux.MeanPool((6, 6)),
-           x -> reshape(x, (augment_dim, :)), Flux.Dense(augment_dim,10)) |> gpu
-          
 nn_ode = NeuralODE(dudt, (0.f0, 1.f0), Tsit5(),
                    save_everystep = false,
                    reltol = 1e-3, abstol = 1e-3,
                    save_start = false) |> gpu
 
+# (A)NODE
+node_model = augmented < 1 ? nn_ode : AugmentedNDELayer(nn_ode,augmented)             
 
+# fully connected que devuelve la probabilidad de clase              
+fc = Flux.Chain(Flux.GroupNorm(augment_dim, augment_dim), x -> relu.(x), Flux.MeanPool((6, 6)),
+           x -> reshape(x, (augment_dim, :)), Flux.Dense(augment_dim,10),sigmoid) |> gpu
+          
 # conversión de DiffEqArray del solver ODE en una Matriz que puede ser utilizada en la siguiente capa
 function DiffEqArray_to_Array(x)
     xarr = gpu(x)
@@ -73,7 +72,7 @@ end
 
 # Modelo
 model = Flux.Chain(down,                # (28, 28, 1, BS) -> (6, 6, dim, BS)
-              node_model,               # (6, 6, 64, BS) -> (6, 6, augment_dim, BS, 1)
+              node_model,               # (6, 6, augment_dim, BS) -> (6, 6, augment_dim, BS, 1)
               DiffEqArray_to_Array,     # (6, 6, augment_dim, BS, 1) -> (6, 6, augment_dim, BS)
               fc)                       # (6, 6, augment_dim, BS) -> (10, BS)
 
