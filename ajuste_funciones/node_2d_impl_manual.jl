@@ -31,11 +31,6 @@ ylabel!(latexstring("u_2"))
 params = Flux.params(p)   # parámetros del modelo
 
 # Paso hacia adelante de la red
-#=
-function predict()
-  solve(prob,Tsit5(),p=p,saveat=t,reltol=1e-5,abstol=1e-5)
-end
-=#
 predict() = solve(prob,Tsit5(),p=p,saveat=t,reltol=1e-5,abstol=1e-5)
 
 # Función de pérdida 
