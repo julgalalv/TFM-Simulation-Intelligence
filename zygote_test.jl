@@ -5,8 +5,16 @@ using Zygote
 gradient(x -> 3x^2 + 2x + 1, 5)
 
 # Gradiente de f(x,y) = xy en (2,3)
-gradient((a, b) -> a*b, 2, 3)
+f(x,y) = x*y
+gradient(f, [2, 3])
 
+# Jacobiano de f(x,y) = [x^2,x*y+1] en (2,3)
+jacobian((x,y) -> [x^2,x*y+1], 2, 3)
+
+# Gradiente y Hessiano de f(x,y) = xy en (2,3)
+f(x) = x[1]*x[2]
+gradient(f, 2, 3)
+hessian(f,[2,3])
 
 ## EJEMPLOS EN DISTINTAS ESTRUCTURAS
 # Arrays (perceptrón)
@@ -56,11 +64,11 @@ W1,b1 = rand(5,10),rand(5)  # Capa 1
 W2,b2 = randn(2,5),randn(2)	# Capa 2
 
 # Perceptrón multicapa
-mlp = chain(dense(W1,b1,tan),	# (10) -> (5)
-			dense(W2,b2))		# (5)  -> (2)
+mlp = chain(dense(W1,b1,tan),   # (10) -> (5)
+            dense(W2,b2))       # (5)  -> (2)
 
-x0 = randn(10)			 # valor inicial
-mlp(x0)
+x0 = randn(10) # valor inicial
+mlp(x0)        # imagen del valor inicial
 
 # loss: Error cuadrático con respecto a la constante 1 
 loss(m,x) = sum(abs2,1 .- m(x)) 
