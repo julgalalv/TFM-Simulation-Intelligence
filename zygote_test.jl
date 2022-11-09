@@ -1,7 +1,7 @@
 using Zygote
 
 ## EJEMPLOS SIMPLES
-# Gradiente de 3x^2 + 2x + 1^en x = 5
+# Gradiente de 3x^2 + 2x + 1 en x = 5
 gradient(x -> 3x^2 + 2x + 1, 5)
 
 # Gradiente de f(x,y) = xy en (2,3)
