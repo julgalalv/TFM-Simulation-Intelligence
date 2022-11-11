@@ -1,0 +1,25 @@
+Modelo mnist_anode5_original (batch size = 256)
+Iter:   1 || Train Accuracy: 11.383 || Test Accuracy: 11.350
+Iter:  11 || Train Accuracy: 12.973 || Test Accuracy: 13.090
+Iter:  21 || Train Accuracy: 51.156 || Test Accuracy: 51.730
+Iter:  31 || Train Accuracy: 59.148 || Test Accuracy: 57.950
+Iter:  41 || Train Accuracy: 76.449 || Test Accuracy: 77.500
+Iter:  51 || Train Accuracy: 63.379 || Test Accuracy: 63.410
+Iter:  61 || Train Accuracy: 82.820 || Test Accuracy: 83.060
+Iter:  71 || Train Accuracy: 86.387 || Test Accuracy: 86.930
+Iter:  81 || Train Accuracy: 87.355 || Test Accuracy: 87.740
+Iter:  91 || Train Accuracy: 87.613 || Test Accuracy: 88.020
+Iter: 101 || Train Accuracy: 88.051 || Test Accuracy: 88.380
+Iter: 111 || Train Accuracy: 87.840 || Test Accuracy: 88.380
+Iter: 121 || Train Accuracy: 89.152 || Test Accuracy: 89.590
+Iter: 131 || Train Accuracy: 88.324 || Test Accuracy: 89.160
+Iter: 141 || Train Accuracy: 89.027 || Test Accuracy: 89.840
+Iter: 151 || Train Accuracy: 89.012 || Test Accuracy: 89.770
+Iter: 161 || Train Accuracy: 89.680 || Test Accuracy: 90.160
+Iter: 171 || Train Accuracy: 60.977 || Test Accuracy: 60.540
+Iter: 181 || Train Accuracy: 79.645 || Test Accuracy: 79.990
+Iter: 191 || Train Accuracy: 61.164 || Test Accuracy: 60.010
+Iter: 201 || Train Accuracy: 87.445 || Test Accuracy: 87.790
+Iter: 211 || Train Accuracy: 85.672 || Test Accuracy: 86.090
+Iter: 221 || Train Accuracy: 89.289 || Test Accuracy: 90.090
+Iter: 231 || Train Accuracy: 89.508 || Test Accuracy: 89.800

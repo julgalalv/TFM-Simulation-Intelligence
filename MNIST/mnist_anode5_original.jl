@@ -34,23 +34,22 @@ function loadmnist(batchsize = bs)
 end
 
 # tamaño de batch
-const bs = 128
+const bs = 256
 
 # carga de datos
 train_dataloader, test_dataloader = loadmnist(bs)
 
-dim = 64                        # dimensión de capas ocultas
-augmented = 0                   # dimensión aumentada de anode
-augment_dim = dim + augmented   # dimensión total
+dim = 64               # dimensión de capas ocultas (filtros)
+augmented = 5          # dimensión aumentada de anode
+img_size = size(view(train_dataloader.data[1][:, :, :,1:1],:,:,:)) # shape de las imágenes
+channels = img_size[3] + augmented  # canales aumentados (1+augmented)
+flattened_dim = channels * img_size[1] * img_size[2] # dimensión de imagen aplanada
 
-# downsample de las imágenes a 6 x 6 x dim
-down = Flux.Chain(Flux.Conv((3, 3), 1=>dim, relu, stride = 1), Flux.GroupNorm(dim, dim),
-             Flux.Conv((4, 4), dim=>dim, relu, stride = 2, pad=1), Flux.GroupNorm(dim, dim),
-             Flux.Conv((4, 4), dim=>dim, stride = 2, pad = 1)) |>gpu
 
 # modelo de (A)NODE
-dudt = Flux.Chain(Flux.Conv((3, 3), augment_dim=>augment_dim, tanh, stride=1, pad=1),
-             Flux.Conv((3, 3), augment_dim=>augment_dim, tanh, stride=1, pad=1)) |>gpu
+dudt = Flux.Chain(Flux.Conv((1, 1), channels=>dim, relu, stride=1, pad=0),
+                  Flux.Conv((3, 3), dim=>dim, relu, stride=1, pad=1),
+                  Flux.Conv((1,1),dim=>channels, stride=1,pad=0)) |>gpu
 
 nn_ode = NeuralODE(dudt, (0.f0, 1.f0), Tsit5(),
                    save_everystep = false,
@@ -61,8 +60,8 @@ nn_ode = NeuralODE(dudt, (0.f0, 1.f0), Tsit5(),
 node_model = augmented < 1 ? nn_ode : AugmentedNDELayer(nn_ode,augmented)             
 
 # fully connected que devuelve la probabilidad de clase              
-fc = Flux.Chain(Flux.GroupNorm(augment_dim, augment_dim), x -> relu.(x), Flux.MeanPool((6, 6)),
-           x -> reshape(x, (augment_dim, :)), Flux.Dense(augment_dim,10),sigmoid) |> gpu
+fc = Flux.Chain(Flux.flatten, 
+                Flux.Dense(flattened_dim,10)) |> gpu
           
 # conversión de DiffEqArray del solver ODE en una Matriz que puede ser utilizada en la siguiente capa
 function DiffEqArray_to_Array(x)
@@ -71,10 +70,9 @@ function DiffEqArray_to_Array(x)
 end
 
 # Modelo
-model = Flux.Chain(down,                # (28, 28, 1, BS) -> (6, 6, dim, BS)
-              node_model,               # (6, 6, augment_dim, BS) -> (6, 6, augment_dim, BS, 1)
-              DiffEqArray_to_Array,     # (6, 6, augment_dim, BS, 1) -> (6, 6, augment_dim, BS)
-              fc)                       # (6, 6, augment_dim, BS) -> (10, BS)
+model = Flux.Chain(node_model,               # (28, 28, channels, BS) -> (28, 28, channels, BS, 1)
+                   DiffEqArray_to_Array,     # (28, 28, channels, BS, 1) -> (28, 28, channels, BS)
+                   fc)                       # (28, 28, channels, BS) -> (10, BS)
 
 
 
@@ -96,16 +94,7 @@ function accuracy(model, data; n_batches = 100)
 end
 
 # Función de pérdida
-loss(x, y) = logitcrossentropy(model(x), y)
-
-
-# Ejemplo de paso hacia adelante con la primera imagen de entrenamiento
-img, lab = train_dataloader.data[1][:, :, :, 1:1], train_dataloader.data[2][:, 1:1]
-x_m = model(img)
-# pérdida 
-loss(img, lab)
-# rendimiento inicial
-accuracy(model, train_dataloader)
+loss(x, y) = Flux.logitcrossentropy(model(x), y)
 
 ## Entrenamiento
 opt = ADAM(0.05)
@@ -122,4 +111,5 @@ callback() = begin
     end
 end
 
-Flux.train!(loss, Flux.params(down, nn_ode.p, fc), train_dataloader, opt, cb = callback)
+
+Flux.train!(loss,  Flux.params(node_model.p, fc), train_dataloader, opt, cb = callback)

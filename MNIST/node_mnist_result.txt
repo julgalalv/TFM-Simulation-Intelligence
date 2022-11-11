@@ -1,3 +1,4 @@
+Modelo mnist__node_downsamppling (batch size = 128)
 Iter:   1 || Train Accuracy: 17.242 || Test Accuracy: 16.940
 Iter:  11 || Train Accuracy: 9.906 || Test Accuracy: 10.320
 Iter:  21 || Train Accuracy: 20.805 || Test Accuracy: 20.750
