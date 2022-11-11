@@ -73,6 +73,13 @@ $$
 </p>
 <p align = "center"><em>Fig 4. ANODE puede ajustar dinámicas de segundo orden tratándola como un sistema de primer orden en dimensiones superiores (aumentadas).</em></p>
 
+## MNIST
+
+Se han probado también los modelos NODE y ANODE en el problema clásico de MNIST. En el directorio MNIST se encuentran dos archivos de julia distintos:
+*  **mnist_anode5_original.jl**: Implementación del modelo ANODE original de los autores de <a id="2">[2]</a>. El código original ([repositorio](https://github.com/EmilienDupont/augmented-neural-odes)) en Pytorch ha sido adaptado a Julia. 
+*  **mnist_node_downsample.jl** Modificación del modelo anterior añadiendo un downsampling previo a la capa NODE.
+
+Los resultados de los entrenamientos pueden consultarse en los archivos .txt del directorio. Con el modelo original se ha obtenido un rendimiento en test de 89.8% mientras que en el modificado un 98.2%.
 
 # Referencias
 
